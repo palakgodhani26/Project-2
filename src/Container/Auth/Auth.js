@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form } from 'reactstrap';
-import {ErrorMessage, Formik} from 'formik';
+import {useFormik, Formik} from 'formik';
 import * as yup from 'yup';
 
 
@@ -11,21 +11,19 @@ function Auth(props) {
     let schema = yup.object().shape({
         email: yup.string().required("please enter your email id").email("please enter valid email id"),
         password: yup.string().required("please enter password"),
-        createdOn: yup.date().default(function () {
-            return new Date();
-        }),
     });
 
-    const formik = useFormik({
+    const formikobj = useFormik({
         initialValues: {
           email: '',
-          password: ''
+          password: '',
         },
         validationschema :schema,
         onSubmit: values => {
           alert(JSON.stringify(values, null, 2));
         },
-})
+      });
+    const { handleChange, errors, handleSubmit } = formikobj;
 
     return (
         <center>
@@ -40,8 +38,8 @@ function Auth(props) {
                                     <h2>Signup</h2>
                         }
                     </div>
-                    <Formik values={Formik}>
-                        <Form action method="Post" role="form" className="php-email-form">
+                    <Formik values={formikobj}>
+                        <Form  onSubmit= {handleSubmit} action method="Post" role="form" className="php-email-form">
                             {
                                 reset === "true" ?
                                     null :
@@ -52,19 +50,20 @@ function Auth(props) {
                                             <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4"
                                                 data-msg="Please enter at least 4 chars" />
                                             <div class="validate"></div>
-                                            onChange={handleChange}
-                                            <p>{error.email}</p>
+                                            
                                         </div>
                             }
                             <div class="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email"
+                                <input onChange={handleChange} type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email"
                                     data-msg="Please enter a valid email" />
                                 <div class="validate"></div>
+                                <p>{errors.email}</p>
                             </div>
                             <div class="col-md-4 form-group mt-3 mt-md-0">
-                                <input type="password" className="form-control" name="password" id="password" placeholder="Your Password" data-rule="password"
+                                <input onChange={handleChange} type="password" className="form-control" name="password" id="password" placeholder="Your Password" data-rule="password"
                                     data-msg="Please enter a password" />
                                 <div class="validate" />
+                                <p>{errors.password}</p>
                             </div>
                             {
                                 reset === "true" ?
