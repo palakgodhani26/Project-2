@@ -3,27 +3,48 @@ import { Form } from 'reactstrap';
 import {useFormik, Formik} from 'formik';
 import * as yup from 'yup';
 
-
 function Auth(props) {
     const [user, setUser] = useState('login');
     const [reset, setReset] = useState(false)
 
-    let schema = yup.object().shape({
-        email: yup.string().required("please enter your email id").email("please enter valid email id"),
-        password: yup.string().required("please enter password"),
-    });
+
+    let schemaObj, initVal;
+
+    if(user === "login") {
+        schemaObj ={
+            email: yup.string().required("please enter your email id").email("please enter valid email id"),
+            password: yup.string().required("please enter password"),
+        }
+        initVal={
+            email :'',
+            password :'',
+
+        }
+    }else if( user ==="Signup"){
+        schemaObj ={
+            email: yup.string().required("please enter your email id").email("please enter valid email id"),
+            password: yup.string().required("please enter password"),
+        }
+        initVal ={
+            name:'',
+            email:'',
+            password:'',
+        }
+    }
+
+    let schema = yup.object().shape(schemaObj);
 
     const formikobj = useFormik({
-        initialValues: {
-          email: '',
-          password: '',
-        },
-        validationschema :schema,
+        initialValues: initVal,
+        validationSchema:schema,
+
         onSubmit: values => {
           alert(JSON.stringify(values, null, 2));
         },
       });
-    const { handleChange, errors, handleSubmit } = formikobj;
+
+    const { handleChange, errors, handleSubmit, touched, handleBlur } = formikobj;
+    console.log(errors);
 
     return (
         <center>
@@ -39,7 +60,7 @@ function Auth(props) {
                         }
                     </div>
                     <Formik values={formikobj}>
-                        <Form  onSubmit= {handleSubmit} action method="Post" role="form" className="php-email-form">
+                        <Form  onSubmit={handleSubmit} className="php-email-form">
                             {
                                 reset === "true" ?
                                     null :
@@ -47,23 +68,20 @@ function Auth(props) {
                                         null
                                         :
                                         <div class="col-md-4 form-group">
-                                            <input type="text" name="name" className="form-control" id="name" placeholder="Your Name" data-rule="minlen:4"
-                                                data-msg="Please enter at least 4 chars" />
+                                            <input onChange={handleChange} onBlur={handleBlur} type="text" name="name" className="form-control" id="name" placeholder="Your Name" />
                                             <div class="validate"></div>
-                                            
+                                            {/* <p>{errors.name && touched.name ? errors.name:''}</p> */}
                                         </div>
                             }
                             <div class="col-md-4 form-group mt-3 mt-md-0">
-                                <input onChange={handleChange} type="email" className="form-control" name="email" id="email" placeholder="Your Email" data-rule="email"
-                                    data-msg="Please enter a valid email" />
+                                <input onChange={handleChange} onBlur={handleBlur} type="text" className="form-control" name="email" id="email" placeholder="Your Email" />
                                 <div class="validate"></div>
-                                <p>{errors.email}</p>
+                                <p>{errors.email  && touched.email ? errors.email:''}</p>
                             </div>
                             <div class="col-md-4 form-group mt-3 mt-md-0">
-                                <input onChange={handleChange} type="password" className="form-control" name="password" id="password" placeholder="Your Password" data-rule="password"
-                                    data-msg="Please enter a password" />
+                                <input onChange={handleChange}  onBlur={handleBlur} type="password" className="form-control" name="password" id="password" placeholder="Your Password" />
                                 <div class="validate" />
-                                <p>{errors.password}</p>
+                                <p>{errors.password && touched.password ? errors.password:''}</p>
                             </div>
                             {
                                 reset === "true" ?
@@ -81,19 +99,18 @@ function Auth(props) {
                                     <div className="text-center">
                                         <br>
                                         </br>
-                                        <span>Already have an account<button className='s-btn' onClick={() => { setReset('false'); setUser("signup") }}>Signup</button></span>
+                                        <span>Already have an account<a className='signup' onSubmit={handleSubmit} onClick={() => { setReset('false'); setUser("signup")}} type="Submit">Signup</a></span>
                                     </div>
                                     :
                                     <div className="text-center">
                                         <br>
                                         </br>
-                                        <span>Create a new account ?</span><button className="s-btn" onClick={() => { setReset('false'); setUser("login") }}>Login</button>
+                                        <span>Create a new account ?</span><a className="login" onClick={() => { setReset('false'); setUser("login")}} type="Submit">Login</a>
                                     </div>
                             }
                             <br>
                             </br>
-                            <div className="text-center"><button type="submit" className='s-btn' onClick={() => setReset('true')}>Forgot password</button></div>
-
+                            <div className="text-center"><a type="submit" className='signup' onClick={() => setReset('true')}>Forgot password</a></div>
                         </Form>
                     </Formik>
                     </div>

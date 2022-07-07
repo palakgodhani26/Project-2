@@ -11,6 +11,8 @@ import Contact from './Container/Contact/Contact';
 import Auth from './Container/Auth/Auth';
 import Medicines from './Container/Medicines/Medicines';
 import Refexample from './Container/Refexample/Refexample';
+import ListAppointment from './Container/Appointment/ListAppointment';
+import BookAppointment from './Container/Appointment/BookAppointment';
 
 function App() {
   return (
@@ -27,9 +29,8 @@ function App() {
           <Route path={"/auth"} exact component={Auth}/>
           <Route path={"/medicines"} exact component={Medicines}/>
           <Route path={"/refexample"} exact component={Refexample}/>
-
-
-
+          <Route path={"/BookAppointment"} exact component={BookAppointment}/>
+          <Route path={"/ListAppointment"} exact component={ListAppointment}/>
 
         </Switch>
 
