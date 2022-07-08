@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useFormik, Formik } from 'formik';
 import * as yup from 'yup';
 import { NavLink, useHistory } from 'react-router-dom';
 
 function BookAppointment(props) {
+    const [update, setUpdate] = useState(false)
+
     const history = useHistory();
+
+    useEffect(
+        () => {
+            let localData = JSON.parse(localStorage.getItem("apt"));
+
+            if (props.location.state && localData !== null) {
+                let localData = JSON.parse(localStorage.getItem("apt"));
+
+                let fData = localData.filter((l) => l.id === props.location.state.id);
+
+                formikObj.setValues(fData[0]);
+                setUpdate(true);
+            }
+        },
+        [])
 
     let Schema = yup.object().shape({
         name: yup.string().required("Please enter name."),
@@ -27,13 +44,15 @@ function BookAppointment(props) {
         },
         validationSchema: Schema,
         onSubmit: values => {
-            handleInsert(values);
-            
+            if (update) {
+                handleUpdateData(values)
+            } else {
+                handleInsert(values);
+            }
         },
     });
 
-    const { handleBlur, handleChange, handleSubmit, errors, touched,values } = formikObj;
-
+    const { handleBlur, handleChange, handleSubmit, errors, touched, values } = formikObj;
     const handleInsert = (values) => {
         let localData = JSON.parse(localStorage.getItem("apt"));
 
@@ -54,8 +73,27 @@ function BookAppointment(props) {
         history.push("/ListAppointment");
         console.log([data]);
     }
+    const handleUpdateData = (values) => {
+        let localData = JSON.parse(localStorage.getItem("apt"));
 
+        let uData = localData.map((l) => {
+            if (l.id === values.id) {
+                return values;
+            } else {
+                return l;
+            }
+        });
+        localStorage.setItem("apt", JSON.stringify(uData));
 
+        history.replace();
+
+        formikObj.resetForm();
+
+        setUpdate(false)
+
+        history.push("/ListAppointment");
+
+    }
 
     return (
         <div>
@@ -66,10 +104,10 @@ function BookAppointment(props) {
                             <h2>Make an Appointment</h2>
                             <div className='row'>
                                 <div className='col-6'>
-                                    <NavLink to={"/BookAppointment"}>BookAppointment</NavLink>
+                                    <NavLink to={"/BookAppointment"}>Book an Appointment</NavLink>
                                 </div>
                                 <div className='col-6'>
-                                    <NavLink to={"/ListAppointment"}>ListAppointment</NavLink>
+                                    <NavLink to={"/ListAppointment"}>List an Appointment</NavLink>
                                 </div>
                             </div>
                         </div>
@@ -83,6 +121,7 @@ function BookAppointment(props) {
                                             className="form-control"
                                             id="name"
                                             placeholder="Your Name"
+                                            value={values.name}
                                             onChange={handleChange}
                                             onBlur={handleBlur} />
                                         {errors.name && touched.name ? errors.name : ''}
@@ -96,6 +135,7 @@ function BookAppointment(props) {
                                             className="form-control"
                                             id="email"
                                             placeholder="Your email"
+                                            value={values.email}
                                             onChange={handleChange}
                                             onBlur={handleBlur} />
                                         {errors.email && touched.email ? errors.email : ''}
@@ -109,6 +149,7 @@ function BookAppointment(props) {
                                             className="form-control"
                                             id="phone"
                                             placeholder="Your phone"
+                                            value={values.phone}
                                             onChange={handleChange}
                                             onBlur={handleBlur} />
                                         {errors.phone && touched.phone ? errors.phone : ''}
@@ -122,6 +163,7 @@ function BookAppointment(props) {
                                             className="form-control"
                                             id="date"
                                             placeholder="date"
+                                            value={values.date}
                                             onChange={handleChange}
                                             onBlur={handleBlur} />
                                         {errors.date && touched.date ? errors.date : ''}
@@ -129,13 +171,13 @@ function BookAppointment(props) {
                                     </div>
 
                                     <div className="col-md-4 form-group">
-                                        <select  value={values.department} onChange={handleChange} onBlur={handleBlur} name="department" id="department" className="form-select">
+                                        <select value={values.department} onChange={handleChange} onBlur={handleBlur} name="department" id="department" className="form-select">
                                             <option value="">Select</option>
                                             <option value="Department 1">Department 1</option>
                                             <option value="Department 2">Department 2</option>
                                         </select>
                                         <p className='text-color'>
-                                        {errors.department && touched.department ? errors.department : ''}
+                                            {errors.department && touched.department ? errors.department : ''}
                                         </p>
                                         <div className="validate" />
                                     </div>
@@ -150,17 +192,24 @@ function BookAppointment(props) {
                                     <div className="validate" />
                                 </div>
 
-                            <div className="mb-3">
-                                <div className="loading">Loading</div>
-                                <div className="error-message"></div>
-                                <div className="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-                            </div>
-                            <div className="text-center"><button type="submit">Make an Appointment</button></div>
-                        </Form>
-                    </Formik>
-                </div>
-            </section>
-        </main>
+                                <div className="mb-3">
+                                    <div className="loading">Loading</div>
+                                    <div className="error-message"></div>
+                                    <div className="sent-message">Your appointment request has been sent successfully. Thank you!</div>
+                                </div>
+                                <div className="text-center">
+                                    { 
+                                        update ?
+                                        <button type="submit">update an Appointment</button>
+                                         :
+                                         <button type="submit">Make an Appointment</button>
+                                         }
+                                         </div>
+                            </Form>
+                        </Formik>
+                    </div>
+                </section>
+            </main>
         </div >
     );
 }

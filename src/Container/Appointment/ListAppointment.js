@@ -33,15 +33,15 @@ function ListAppointment(props) {
     }
 
     const handleEdit = (id) => {
-        history.push("/BookAppointment", { id: id });
         console.log(id);
+        history.push("/BookAppointment", { id: id });
     }
     return (
         <main>
             <section id="appointment" className="appointment">
                 <div className="container">
                     <div className='section-title'>
-                        <h2>Appointment</h2>
+                        <h2>Manage an Appointment</h2>
                     </div>
                     <div className='row text-center mb-4'>
                         <div className='col-6'>
@@ -72,7 +72,7 @@ function ListAppointment(props) {
                                     {d.phone}
                                 </CardText>
 
-                                <Button onClick={() => handleDelete(d.id)}>
+                                <Button onClick={() => handleEdit(d.id)}>
                                     Edit
                                 </Button>
 

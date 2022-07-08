@@ -42,3 +42,6 @@ a{
 .appointment-btn a{
   color: #fff;
 }
+.card-body h5 ,p{
+  color: black;
+}
