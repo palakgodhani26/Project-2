@@ -7,6 +7,10 @@ function Auth(props) {
     const [user, setUser] = useState('login');
     const [reset, setReset] = useState(false)
 
+    const handleLogin = () => {
+        localStorage.setItem("user", "123");
+    }
+
 
     let schemaObj, initVal;
 
@@ -34,12 +38,29 @@ function Auth(props) {
 
     let schema = yup.object().shape(schemaObj);
 
+    const handleData = (values) => {
+        let localData = JSON.parse(localStorage.getItem("user"));
+
+        if (localData === null) {
+            localStorage.setItem("user", JSON.stringify([values]));
+
+        }else {
+            localData.push(values);
+            localStorage.setItem("user", JSON.stringify(localData));
+        }
+        console.log(values);
+    } 
+
     const formikobj = useFormik({
         initialValues: initVal,
         validationSchema:schema,
 
         onSubmit: values => {
-          alert(JSON.stringify(values, null, 2));
+          if(user === 'auth') {
+            handleLogin()
+          } else {
+            handleData(values);
+          }
         },
       });
 
@@ -70,7 +91,7 @@ function Auth(props) {
                                         <div class="col-md-4 form-group">
                                             <input onChange={handleChange} onBlur={handleBlur} type="text" name="name" className="form-control" id="name" placeholder="Your Name" />
                                             <div class="validate"></div>
-                                            {/* <p>{errors.name && touched.name ? errors.name:''}</p> */}
+                                            <p>{errors.name && touched.name ? errors.name:''}</p>
                                         </div>
                             }
                             <div class="col-md-4 form-group mt-3 mt-md-0">

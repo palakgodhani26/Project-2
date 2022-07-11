@@ -86,9 +86,7 @@ function ListAppointment(props) {
                             })
                         }
                     </div>
-
                 </div>
-
             </section>
         </main>
     );

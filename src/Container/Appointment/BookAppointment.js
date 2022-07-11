@@ -53,7 +53,9 @@ function BookAppointment(props) {
     });
 
     const { handleBlur, handleChange, handleSubmit, errors, touched, values } = formikObj;
+
     const handleInsert = (values) => {
+        
         let localData = JSON.parse(localStorage.getItem("apt"));
 
         let id = Math.floor(Math.random() * 1000);
