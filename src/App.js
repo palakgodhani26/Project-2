@@ -13,12 +13,14 @@ import Medicines from './Container/Medicines/Medicines';
 import Refexample from './Container/Refexample/Refexample';
 import ListAppointment from './Container/Appointment/ListAppointment';
 import BookAppointment from './Container/Appointment/BookAppointment';
-import PublicRoute from './Container/Route/PublicRoute';
-import PrivateRoute from './Container/Route/PrivateRoute';
+import PublicRoute from './Route/PublicRoute';
+import PrivateRoute from './Route/PrivateRoute';
+import { ThemeProvider } from './Context/ThmeContext';
 
 function App() {
   return (
     <>
+    <ThemeProvider>
         <Header />
         
         <Switch>
@@ -35,8 +37,7 @@ function App() {
           <PrivateRoute path={"/ListAppointment"} exact component={ListAppointment}/>
 
         </Switch>
-
-
+        </ThemeProvider>
         <Footer />
     </>
   );
