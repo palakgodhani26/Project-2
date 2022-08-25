@@ -1,32 +1,34 @@
-import { useReducer } from "react";
-import { createContext } from "react";
-import { ThemeReducer } from "./Reducer/Theme.Reducer";
+import { createContext, useReducer } from "react";
 import { TOGGLE_THEME } from "./ActionType";
+import { themeReducer } from "../Context/Reducer/Theme.Reducer";
 
-export  const ThemeContext = createContext();
 
-const initVal = {
+export const themeContext = createContext();
+
+const initval = {
     theme: 'light'
 }
 
-export const ThemeProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(ThemeReducer, initVal);
+const ToggleThemecontext = ({ children }) => {
+    const [state, dispatch] = useReducer(themeReducer, initval);
+
+    const toggle_theme = (val) => {
+        let newTheme = val === 'light' ? 'dark' : 'light';
+        dispatch({ type: TOGGLE_THEME, payload: newTheme })
+    }
+
+    return (
+        <themeContext.Provider
+            value={{
+                ...state,
+                toggle_theme
+            }}
+
+        >
+            {children}
+
+        </themeContext.Provider>
+    )
 }
 
-const toggle_theme = (val) => {
-    let newtheme = val === 'light' ? 'dark' : 'light';
-    dispatch({ type: TOGGLE_THEME, payload: newtheme });
-}
-
-return (
-    <ThemeContext.Provider
-        value={{
-            ...state,
-            toggle_theme
-         } }
-    >
-        {children}
-    </ThemeContext.Provider>
-)
-
-export default ThemeContext;
+export default ToggleThemecontext;

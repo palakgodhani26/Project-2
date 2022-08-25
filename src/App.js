@@ -15,12 +15,15 @@ import ListAppointment from './Container/Appointment/ListAppointment';
 import BookAppointment from './Container/Appointment/BookAppointment';
 import PublicRoute from './Route/PublicRoute';
 import PrivateRoute from './Route/PrivateRoute';
-import { ThemeProvider } from './Context/ThmeContext';
+import { store } from '../src/Redux/Store';
+import {Provider}  from 'react-redux';
+import ToggleThemecontext from './Context/ThmeContext';
 
 function App() {
   return (
     <>
-    <ThemeProvider>
+     <Provider store={store}>
+    <ToggleThemecontext>
         <Header />
         
         <Switch>
@@ -37,8 +40,9 @@ function App() {
           <PrivateRoute path={"/ListAppointment"} exact component={ListAppointment}/>
 
         </Switch>
-        </ThemeProvider>
+        </ToggleThemecontext>
         <Footer />
+        </Provider>
     </>
   );
 }

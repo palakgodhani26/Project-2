@@ -3,6 +3,7 @@ import { Form } from 'reactstrap';
 import {useFormik, Formik} from 'formik';
 import * as yup from 'yup';
 import { signUpAction} from '../../Redux/Action/Auth.Action';
+import { useDispatch } from 'react-redux';
 
 
 function Auth(props) {
@@ -39,7 +40,7 @@ function Auth(props) {
     }
 
     let schema = yup.object().shape(schemaObj);
-
+const dispatch = useDispatch
     const handleData = (values) => {
         // let localData = JSON.parse(localStorage.getItem("user"));
 
