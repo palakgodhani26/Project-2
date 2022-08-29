@@ -4,3 +4,5 @@ export const SIGN_IN="SIGN_IN";
 
 export const SET_ALERT = "SET_ALERT";
 export const RESET_ALERT = "RESET_ALERT";
+
+export const SIGN_OUT = "SIGN_OUT";

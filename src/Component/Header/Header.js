@@ -1,16 +1,22 @@
 import React, { useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import {ThemeContext} from '../../Context/ThmeContext';
+import { ThemeContext } from '../../Context/ThmeContext';
 import Alert from '../Alert/Alert';
+import { useDispatch } from 'react-redux';
+import { signOutAction } from '../../Redux/Action/Auth.Action';;
+
 
 function Header(props) {
 
     const value = useContext(ThemeContext);
     console.log(value);
 
+    const dispatch = useDispatch();
+
+
     return (
         <div className="main-header">
-            <div id="topbar" className={`fixed-top ${value.theme}`}>
+            <div id="topbar" className={`d-flex align-items-center fixed-top ${value.theme}`}>
                 <div className="container d-flex justify-content-between">
                     <div className="contact-info d-flex align-items-center">
                         <i className="bi bi-envelope" /> <a href="mailto:contact@example.com">cityhospital@example.com</a>
@@ -65,6 +71,8 @@ function Header(props) {
                     <a href="#" className="appointment-btn scrollto">
                         <NavLink className="d-none d-md-inline" to={"/auth"}>Login/Signup</NavLink>
                     </a>
+                    <span className="appointment-btn scrollto d-none d-md-inline" onClick={() => {dispatch(signOutAction()) }}>Logout</span>
+
                 </div>
             </header>
         </div>

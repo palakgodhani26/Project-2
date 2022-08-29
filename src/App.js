@@ -18,10 +18,12 @@ import PrivateRoute from './Route/PrivateRoute';
 import { store } from '../src/Redux/Store';
 import {Provider}  from 'react-redux';
 import ToggleThemecontext from './Context/ThmeContext';
+import { SnackbarProvider } from 'notistack';
 
 function App() {
   return (
     <>
+    <SnackbarProvider maxSnack={3}>
      <Provider store={store}>
     <ToggleThemecontext>
         <Header />
@@ -43,6 +45,7 @@ function App() {
         </ToggleThemecontext>
         <Footer />
         </Provider>
+        </SnackbarProvider>
     </>
   );
 }
