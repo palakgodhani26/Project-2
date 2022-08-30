@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card ,CardBody, CardTitle, cardSubtitle, CardText} from 'reactstrap';
+import { Card ,CardBody, CardTitle, CardSubtitle, CardText, button} from 'reactstrap';
 
 function List({getId,Data}) {
     
@@ -8,17 +8,18 @@ function List({getId,Data}) {
         {
             Data.map((o,i) => {
                 return (
-                    <Card key={i}>
+                    <div key={i}>
+                    <Card>
                         <CardBody>
                             <CardTitle tag="h5">
                                 {o.name}
                             </CardTitle>
 
-                            <cardSubtitle 
+                            <CardSubtitle
                             className="mb-2-text-muted"
                             tag="h6">
                                 {o.price}
-                            </cardSubtitle>
+                            </CardSubtitle>
 
                             <CardText>
                                 {o.quantity}
@@ -28,6 +29,7 @@ function List({getId,Data}) {
 
                         </CardBody>
                     </Card>
+                    </div>
                 )
 
             })

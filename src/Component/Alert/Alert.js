@@ -1,6 +1,7 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import React, { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
+import { resetAlert } from '../../Redux/Action/AlertAction';
 
 
 function Alert(props) {
@@ -8,6 +9,8 @@ function Alert(props) {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const alert = useSelector(state => state.alert);
+
+    const dispatch = useDispatch();
 
     console.log(alert);
 
@@ -22,6 +25,7 @@ function Alert(props) {
                     horizontal: 'right'
                 }
             })
+            setTimeout(() => {dispatch(resetAlert())}, 2000)
         }
     }, [alert.text])
 

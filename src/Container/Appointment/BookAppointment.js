@@ -13,15 +13,38 @@ function BookAppointment(props) {
             let localData = JSON.parse(localStorage.getItem("apt"));
 
             if (props.location.state && localData !== null) {
-                let localData = JSON.parse(localStorage.getItem("apt"));
+                // let localData = JSON.parse(localStorage.getItem("apt"));
 
                 let fData = localData.filter((l) => l.id === props.location.state.id);
+                console.log(fData[0]);
 
                 formikObj.setValues(fData[0]);
                 setUpdate(true);
             }
-        },
-        [])
+        }, []);
+
+        const handleUpdateData = (values) => {
+            let localData = JSON.parse(localStorage.getItem("apt"));
+    
+            let uData = localData.map((l) => {
+                if (l.id === values.id) {
+                    return values;
+                } else {
+                    return l;
+                }
+            });
+            localStorage.setItem("apt", JSON.stringify(uData));
+            console.log(uData);
+
+            history.replace();
+
+            formikObj.resetForm();
+    
+            setUpdate(false)
+    
+            history.push("/ListAppointment");
+    
+        }
 
     let Schema = yup.object().shape({
         name: yup.string().required("Please enter name."),
@@ -48,6 +71,7 @@ function BookAppointment(props) {
                 handleUpdateData(values)
             } else {
                 handleInsert(values);
+                history.push("/ListAppointment");
             }
         },
     });
@@ -71,31 +95,8 @@ function BookAppointment(props) {
             localData.push(data);
             localStorage.setItem("apt", JSON.stringify(localData));
         }
-
-        history.push("/ListAppointment");
         console.log([data]);
-    }
-    const handleUpdateData = (values) => {
-        let localData = JSON.parse(localStorage.getItem("apt"));
-
-        let uData = localData.map((l) => {
-            if (l.id === values.id) {
-                return values;
-            } else {
-                return l;
-            }
-        });
-        localStorage.setItem("apt", JSON.stringify(uData));
-
-        history.replace();
-
-        formikObj.resetForm();
-
-        setUpdate(false)
-
-        history.push("/ListAppointment");
-
-    }
+    }   
 
     return (
         <div>
@@ -114,7 +115,7 @@ function BookAppointment(props) {
                             </div>
                         </div>
                         <Formik values={formikObj}>
-                            <Form className="php-email-form" onSubmit={handleSubmit}>
+                            <Form  onSubmit={handleSubmit} className="php-email-form">
                                 <div className="row">
                                     <div className="col-md-4 form-group">
                                         <input

@@ -2,8 +2,8 @@ export const isLogin = () => {
     let user = localStorage.getItem("user");
 
     if(user) {
-        return true
+        return true;
     } else {
-        return false
+        return false;
     }
 }

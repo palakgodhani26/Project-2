@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword,  sendEmailVerification, signInWithEmailAndPassword,  onAuthStateChanged, signOut} from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged,  sendEmailVerification, signInWithEmailAndPassword,  onAuthStateChanged, signOut} from "firebase/auth";
 import { auth } from "../../Firebase/Firebase";
 
 export const signUpapi = (data) => {
@@ -31,10 +31,8 @@ export const signUpapi = (data) => {
                 } 
                 else 
                 {
-                        reject({payload : errorMessage});
+                        reject({payload : errorCode});
                 }
-
-                console.log(error);
             });
     })
 }
@@ -49,18 +47,18 @@ export const SignInapi = (data) => {
 
                 if (user.emailVerified) {
 
-                    reject({ payload: "Login Is Succesfully"});
+                    reject({ payload: user});
                 }
                 else
                 {
-                    reject({ payload: "Please Varify Your Email."});
+                    resolve({ payload: "Please Varify Your Email."});
                 }
  
                 console.log(user);
             })
             .catch((error) => {
                 const errorCode = error.code;
-                // const errorMessage = error.message;
+                const errorMessage = error.message;
 
                 if (errorCode.localeCompare("auth/user-not-found") === 0) 
                 {
@@ -70,13 +68,12 @@ export const SignInapi = (data) => {
                 {
                     reject({ payload: errorCode });
                 }
-                console.log(error);
             });
         })
     }
     export const SignOutapi = () => {
 
-        console.log("data");
+        console.log("SignOutapi");
     
         return new Promise((resolve, reject) => {
     
@@ -90,4 +87,7 @@ export const SignInapi = (data) => {
                     reject({payload : "SomeThing Is Worng." });
                 })
         })
+    }
+    export const ForgotPassApi = (data) => {
+        console.log(data);
     }

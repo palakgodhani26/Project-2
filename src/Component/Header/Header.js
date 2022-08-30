@@ -1,18 +1,20 @@
+import userEvent from '@testing-library/user-event';
 import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ThemeContext } from '../../Context/ThmeContext';
 import Alert from '../Alert/Alert';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signOutAction } from '../../Redux/Action/Auth.Action';;
 
 
 function Header(props) {
 
     const value = useContext(ThemeContext);
-    console.log(value);
 
     const dispatch = useDispatch();
+    const auth = useSelector(state => state.auth);
 
+    console.log(value);
 
     return (
         <div className="main-header">
@@ -28,12 +30,12 @@ function Header(props) {
                         <a href="#" className="instagram"><i className="bi bi-instagram" /></a>
                         <a href="#" className="linkedin"><i className="bi bi-linkedin" /></a>
                     </div>
-                    <button onClick={() => value.TOGGLE_THEME(value.theme)}>
+                    <button onClick={() => value.toggle_theme(value.theme)}>
                         Change Theme</button>
-                        <Alert />
+                    <Alert />
                 </div>
             </div>
-            <header id="header" className="fixed-top">
+            <header id="header" className={`fixed-top ${value.theme}`}>
                 <div className="container d-flex align-items-center">
                     <div className="logo">
                         <a href="index.html">
@@ -61,18 +63,23 @@ function Header(props) {
                             <li>
                                 <NavLink className="nav-link scrollto" to={"/medicines"}>Medicines</NavLink>
                             </li>
-                            <li>
+                            {/* <li>
                                 <NavLink className="nav-link scrollto" to={"/refexample"}>Refexample</NavLink>
-                            </li>
+                            </li> */}
                         </ul>
                         <i className="bi bi-list mobile-nav-toggle" />
                     </nav>
                     <NavLink className="appointment-btn scrollto" to={"/BookAppointment"}>Appointment</NavLink>
-                    <a href="#" className="appointment-btn scrollto">
-                        <NavLink className="d-none d-md-inline" to={"/auth"}>Login/Signup</NavLink>
-                    </a>
-                    <span className="appointment-btn scrollto d-none d-md-inline" onClick={() => {dispatch(signOutAction()) }}>Logout</span>
-
+                    {
+                        auth.user === null ?
+                            <NavLink to="/Login" className="appointment-btn scrollto">
+                                <span className="d-none d-md-inline">Login/ Signup</span>
+                            </NavLink>
+                            :
+                            <NavLink to="/" className="appointment-btn scrollto">
+                                <span className="d-none d-md-inline" onClick={() => { dispatch(signOutAction()) }}>Logout</span>
+                            </NavLink>
+                    }
                 </div>
             </header>
         </div>

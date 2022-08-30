@@ -1,5 +1,7 @@
 import React from 'react';
-    function Footer(props) {
+import {Link}  from 'react-router-dom';
+
+function Footer(props) {
     return (
     <footer id="footer">
         <div className="container d-md-flex py-4">
@@ -22,6 +24,7 @@ import React from 'react';
                 <a href="#" className="google-plus"><i className="bx bxl-skype" /></a>
                 <a href="#" className="linkedin"><i className="bx bxl-linkedin" /></a>
             </div>
+            <Link to="/refexample">Refexample</Link>
         </div>
     </footer>
     );

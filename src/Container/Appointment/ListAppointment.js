@@ -1,3 +1,4 @@
+import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { Card, CardBody, CardTitle, CardSubtitle, Button, CardText } from 'reactstrap';
@@ -11,8 +12,9 @@ function ListAppointment(props) {
     const dData = () => {
 
         let localData = JSON.parse(localStorage.getItem("apt"));
-
-        setData(localData);
+        if(localData !== null){
+            setData(localData);
+        }       
     }
 
     useEffect(() => {
@@ -27,7 +29,7 @@ function ListAppointment(props) {
 
         localStorage.setItem("apt", JSON.stringify(fData));
 
-        console.log(localData);
+        console.log( fData, localData);
 
         dData();
     }

@@ -16,36 +16,40 @@ import BookAppointment from './Container/Appointment/BookAppointment';
 import PublicRoute from './Route/PublicRoute';
 import PrivateRoute from './Route/PrivateRoute';
 import { store } from '../src/Redux/Store';
-import {Provider}  from 'react-redux';
+import { Provider } from 'react-redux';
 import ToggleThemecontext from './Context/ThmeContext';
+import { persistor} from './Redux/Store';
 import { SnackbarProvider } from 'notistack';
+import { PersistGate } from 'redux-persist/integration/react';
 
 function App() {
   return (
     <>
-    <SnackbarProvider maxSnack={3}>
-     <Provider store={store}>
-    <ToggleThemecontext>
-        <Header />
-        
-        <Switch>
+      <SnackbarProvider maxSnack={3}>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <ToggleThemecontext>
+              <Header />
 
-          <PublicRoute path={"/"} exact component={Home}/>
-          <PublicRoute path={"/department"} exact component={Department}/>
-          <PublicRoute path={"/doctors"} exact component={Doctors}/>
-          <PublicRoute path={"/about"} exact component={About}/>
-          <PublicRoute path={"/contact"} exact component={Contact}/>
-          <PublicRoute path={"/auth"} restricted={true} exact component={Auth}/>
-          <PublicRoute path={"/medicines"} exact component={Medicines}/>
-          <PublicRoute path={"/refexample"} exact component={Refexample}/>
-          <PrivateRoute path={"/BookAppointment"} exact component={BookAppointment}/>
-          <PrivateRoute path={"/ListAppointment"} exact component={ListAppointment}/>
+              <Switch>
 
-        </Switch>
-        </ToggleThemecontext>
-        <Footer />
+                <PublicRoute path={"/"} exact component={Home} />
+                <PublicRoute path={"/department"} exact component={Department} />
+                <PublicRoute path={"/doctors"} exact component={Doctors} />
+                <PublicRoute path={"/about"} exact component={About} />
+                <PublicRoute path={"/contact"} exact component={Contact} />
+                <PublicRoute path={"/auth"} restricted={true} exact component={Auth} />
+                <PublicRoute path={"/medicines"} exact component={Medicines} />
+                <PublicRoute path={"/refexample"} exact component={Refexample} />
+                <PrivateRoute path={"/BookAppointment"} exact component={BookAppointment} />
+                <PrivateRoute path={"/ListAppointment"} exact component={ListAppointment} />
+
+              </Switch>
+            </ToggleThemecontext>
+            <Footer />
+          </PersistGate>
         </Provider>
-        </SnackbarProvider>
+      </SnackbarProvider>
     </>
   );
 }
