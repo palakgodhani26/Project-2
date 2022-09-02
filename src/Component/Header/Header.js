@@ -72,13 +72,13 @@ function Header(props) {
                     <NavLink className="appointment-btn scrollto" to={"/BookAppointment"}>Appointment</NavLink>
                     {
                         auth.user === null ?
-                            <NavLink to="/Login" className="appointment-btn scrollto">
+                        <NavLink to="/" className="appointment-btn scrollto">
                                 <span className="d-none d-md-inline">Login/ Signup</span>
-                            </NavLink>
+                        </NavLink>
                             :
-                            <NavLink to="/" className="appointment-btn scrollto">
-                                <span className="d-none d-md-inline" onClick={() => { dispatch(signOutAction()) }}>Logout</span>
-                            </NavLink>
+                        <NavLink to="/" className="appointment-btn scrollto">
+                                <span className="d-none d-md-inline" onClick={() => {dispatch(signOutAction()) }}>Logout</span>
+                        </NavLink>
                     }
                 </div>
             </header>

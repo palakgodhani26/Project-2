@@ -24,7 +24,7 @@ function Auth(props) {
         }
     } else if (user === "Signup") {
         schemaObj = {
-            name:yup.string().required("Please enter your Name."),
+            name: yup.string().required("Please enter your Name."),
             email: yup.string().required("please enter your email id").email("please enter valid email id"),
             password: yup.string().required("please enter password"),
         }
@@ -35,10 +35,10 @@ function Auth(props) {
         }
     } else if (reset == "true") {
         schemaObj = {
-            email :yup.string().required("Please enter email id.").email("please enter valid email id")
+            email: yup.string().required("Please enter email id.").email("please enter valid email id")
         }
         initVal = {
-            email:''
+            email: ''
         }
     }
 
@@ -69,10 +69,10 @@ function Auth(props) {
         validationSchema: schema,
 
         onSubmit: values => {
-            if(user==="login") {
+            if (user === "login") {
                 handleLogin(values);
-            }else {
-            handleData(values);
+            } else {
+                handleData(values);
             }
         },
         enableReinitialize: true
